@@ -61,7 +61,6 @@ CREATE TABLE colas.ordenes (
     cd_programa integer,
     fe_proceso date,
     st_proceso integer,
-    tp_orden integer,
     parametro1 character varying(200),
     parametro2 character varying(200),
     parametro3 character varying(200),
@@ -72,14 +71,15 @@ CREATE TABLE colas.ordenes (
     fe_hasta date,
     fe_desde1 date,
     fe_hasta1 date,
-    tp_reporte integer,
     cd_usuario character varying(100),
     cd_empresa integer,
     tx_nombre_salida character varying(200),
     tx_directorio_salida character varying(500),
-    tp_archivo integer,
     cd_banco integer,
-    cd_cola integer
+    cd_cola integer,
+    tp_orden character varying(3),
+    tp_archivo character varying(10),
+    tp_reporte character varying(10)
 );
 
 
@@ -301,9 +301,9 @@ CREATE TABLE nucleo.configuracion_archivo (
     nu_lineas_cab integer,
     nu_lineas_det integer,
     nu_lineas_pie integer,
-    cd_banco integer,
     tx_separador character varying(3),
-    tx_nombre_salida character varying(100)
+    tx_nombre_salida character varying(100),
+    cd_banco integer
 );
 
 
@@ -591,9 +591,9 @@ ALTER TABLE nucleo.roles OWNER TO postgres;
 CREATE TABLE nucleo.tablacodigo (
     cd_tabla_cod bigint NOT NULL,
     cd_tabla character varying(100),
-    cd_modulo integer,
     tx_valor character varying(150),
-    st_tabla integer
+    st_tabla integer,
+    cd_modulo character varying(100)
 );
 
 
@@ -732,8 +732,9 @@ ALTER TABLE ONLY nucleo.tablacodigo ALTER COLUMN cd_tabla_cod SET DEFAULT nextva
 -- Data for Name: ordenes; Type: TABLE DATA; Schema: colas; Owner: postgres
 --
 
-COPY colas.ordenes (cd_orden, cd_programa, fe_proceso, st_proceso, tp_orden, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, fe_desde, fe_hasta, fe_desde1, fe_hasta1, tp_reporte, cd_usuario, cd_empresa, tx_nombre_salida, tx_directorio_salida, tp_archivo, cd_banco, cd_cola) FROM stdin;
-1	2	\N	2	1	1	\N	\N	\N	\N	\N	2021-03-01	2021-04-01	\N	\N	1	YMEDINA	1	JRPC01_1.xlsx	./salida/JRPC01_1.xlsx	1	1	1
+COPY colas.ordenes (cd_orden, cd_programa, fe_proceso, st_proceso, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, fe_desde, fe_hasta, fe_desde1, fe_hasta1, cd_usuario, cd_empresa, tx_nombre_salida, tx_directorio_salida, cd_banco, cd_cola, tp_orden, tp_archivo, tp_reporte) FROM stdin;
+1	2	\N	2	1	\N	\N	\N	\N	\N	2021-03-01	2021-04-01	\N	\N	YMEDINA	1	JRPC01_1.xlsx	./salida/JRPC01_1.xlsx	1	1	\N	\N	\N
+2	3	2021-07-19	2	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	YMEDINA	1	\N	\N	1	1	2	2	\N
 \.
 
 
@@ -744,6 +745,7 @@ COPY colas.ordenes (cd_orden, cd_programa, fe_proceso, st_proceso, tp_orden, par
 COPY colas.programas (cd_programa, tx_programa, tx_descripcion, st_registro, cd_cola) FROM stdin;
 1	JRCOBR001	Reporte de Cobros	1	1
 2	JRPC01	Reporte Prueba	1	1
+3	DOMICOB	Generacion de cuotas Bancarias	1	1
 \.
 
 
@@ -779,6 +781,8 @@ COPY nucleo.bitacora (cd_consecutivo_archivo, cd_empresa, tx_archivo, tp_archivo
 --
 
 COPY nucleo.clientes (cd_cliente, cd_empresa, fe_registro, st_afiliacion, st_registro, tp_cuenta, tp_documento, tx_correo, tx_cuenta, tx_documento, tx_razonsocial, tx_telefono, cd_banco) FROM stdin;
+1	1	2021-07-19 00:00:00	1	1	1	1	\N	0108102030405060	23695018	Yorman Medina	\N	1
+2	1	2021-07-19 00:00:00	1	1	1	1	\N	0108605040302010	6434149	Juan Medina	\N	1
 \.
 
 
@@ -787,6 +791,8 @@ COPY nucleo.clientes (cd_cliente, cd_empresa, fe_registro, st_afiliacion, st_reg
 --
 
 COPY nucleo.cobros (cd_cobro, cd_empresa, mt_cobro, tx_respuesta, st_cobro, tx_referencia1, tx_referencia2, tx_referencia3, tx_referencia4, tx_referencia_nu1, tx_referencia_nu2, cd_consecutivo_archivo, nu_lote, fe_cobro, mt_cobro_str, fe_registro, cd_cliente, tx_error) FROM stdin;
+1	1	3510001.25	\N	1	41	1016361	28226549	\N	1	\N	1	\N	\N	351000125	2021-09-17	1	\N
+2	1	3510001.25	\N	1	41	1016366	28226569	\N	1	\N	1	\N	\N	351000125	2021-07-19	2	\N
 \.
 
 
@@ -794,10 +800,9 @@ COPY nucleo.cobros (cd_cobro, cd_empresa, mt_cobro, tx_respuesta, st_cobro, tx_r
 -- Data for Name: configuracion_archivo; Type: TABLE DATA; Schema: nucleo; Owner: postgres
 --
 
-COPY nucleo.configuracion_archivo (cd_configuracion, tx_tipo, tx_formato, nu_lineas_cab, nu_lineas_det, nu_lineas_pie, cd_banco, tx_separador, tx_nombre_salida) FROM stdin;
-1	Archivo de Texto	.txt	150	150	0	1	/	GENCOB.0108
-2	.txt	.txt	0	1	0	1	/	DOMICOB.0108
-3	Archivo de Texto	.txt	0	1	0	3	\N	DOMICOB.0102
+COPY nucleo.configuracion_archivo (cd_configuracion, tx_tipo, tx_formato, nu_lineas_cab, nu_lineas_det, nu_lineas_pie, tx_separador, tx_nombre_salida, cd_banco) FROM stdin;
+2	2	.txt	0	1	0	/	AFICOB	\N
+1	1	.txt	1	1	0	|	DOMICOB	\N
 \.
 
 
@@ -807,7 +812,7 @@ COPY nucleo.configuracion_archivo (cd_configuracion, tx_tipo, tx_formato, nu_lin
 
 COPY nucleo.cuentasbancarias (cd_cuentabancaria, cd_empresa, tx_cuenta, cd_banco, nu_lote, tx_ruta, tx_afiliacion, tx_carta, tx_nombre_archivo_salida, st_registro) FROM stdin;
 1	1	01140102030405060708	13	1254	LAFE0114	0	1	GECOB.0114	1
-2	1	01028070605040302011	3	1020	LAFE0102	1	1	GECOB.0102	1
+2	1	01028070605040302011	1	1033	LAFE0102	1	1	GECOB.0102	1
 \.
 
 
@@ -816,8 +821,8 @@ COPY nucleo.cuentasbancarias (cd_cuentabancaria, cd_empresa, tx_cuenta, cd_banco
 --
 
 COPY nucleo.empresas (cd_empresa, tx_empresa, tx_documento, tp_documento, st_registro, tx_icono, tx_razonsocial, created_at, updated_at) FROM stdin;
-2	Yorman Soluciones	23695018	1	1	/sadasd/asdasd	\N	\N	\N
-1	Seguros La Fe, CA	00495252	3	1	/assets/images/seguroslafe.jpg	\N	\N	\N
+1	Seguros La Fe, CA	00495252	J	1	/assets/images/seguroslafe.jpg	\N	\N	\N
+2	Yorman Soluciones	23695018	V	1	/sadasd/asdasd	\N	\N	\N
 \.
 
 
@@ -826,6 +831,17 @@ COPY nucleo.empresas (cd_empresa, tx_empresa, tx_documento, tp_documento, st_reg
 --
 
 COPY nucleo.estructura (cd_estructura, cd_configuracion, tx_inicio, tx_fin, tx_columna, tx_patron_regular, tx_valor_defecto, tx_objeto_cobro_entrada, tx_objeto_cobro_salida, tp_registro, tx_nombre, tx_orientacion_relleno, tx_relleno, cd_banco, tx_consecutivo_registro, tx_clase_objeto, tx_funcion_cobro) FROM stdin;
+4	1	1	2	\N	\N	2	\N	\N	2	Codigo Linea Detalle	I	0	1	1	\N	\N
+6	1	12	25	\N	\N	\N	getMtCobroStr	\N	2	MontoCobro	I	0	1	1	\N	\N
+5	1	3	12	\N	\N	\N	getTxDocumentoCL	\N	2	Documento Cliente	I	0	1	1	\N	\N
+2	1	3	12	\N	\N	\N	getTxDocumento	\N	1	Documento Empresa	I	0	1	1	\N	\N
+3	1	13	32	\N	\N	\N	getTxCuenta	\N	1	Número de Cuenta	\N	\N	1	1	\N	\N
+7	1	33	47	\N	\N	\N	getTxMontoTotal	\N	1	monto total	I	0	1	1	\N	\N
+8	1	48	61	\N	\N	\N	getTxCantidadRegistros	\N	1	\N	I	0	1	1	\N	\N
+1	1	1	2	\N	\N	1	\N	\N	1	Codigo de Linea	I	0	1	1	\N	\N
+9	2	1	2	\N	\N	1	\N	\N	2	\N	I	0	1	1	\N	\N
+10	2	3	12	\N	\N	\N	getTxDocumentoCL	\N	2	\N	I	0	1	1	\N	\N
+11	2	13	32	\N	\N	\N	getTxCuentaCL	\N	2	\N	I	0	1	1	\N	\N
 \.
 
 
@@ -873,7 +889,8 @@ COPY nucleo.menus (cd_menu, tx_menu, tx_enlace, tx_icono, cd_padre, tp_menu, nu_
 47	Reporte Prueba	reportes.prueba	null	46	3	3	\N
 42	Listado de Órdenes	ordenesarchivos	null	41	3	2	\N
 45	Ordenes Ejecutadas	ordenes.principal	null	44	3	3	\N
-48	Estructura de Archivos	estructura.principal	null	34	3	1	\N
+48	Archivos de Domicilo	configuracionarchivos.principal	null	34	3	1	\N
+49	Estructura de Archivos	estructura.principal	null	34	3	1	\N
 \.
 
 
@@ -901,19 +918,52 @@ AVANZADO	Rol avanzado	1
 -- Data for Name: tablacodigo; Type: TABLE DATA; Schema: nucleo; Owner: postgres
 --
 
-COPY nucleo.tablacodigo (cd_tabla_cod, cd_tabla, cd_modulo, tx_valor, st_tabla) FROM stdin;
-1	tp_menu	1	Título del Menú	1
-2	tp_menu	2	Menú	1
-3	tp_menu	3	SubMenú	1
-4	tp_documento	1	Venezolano	1
-5	tp_documento	2	Extranjero	1
-6	tp_documento	3	Juridico	1
-7	tp_documento	4	Gubernamental	1
-8	tp_documento	5	Especial Único	1
-9	tp_reporte	1	Reporte en Excel	1
-10	tp_registro	1	Cabecera del archivo	1
-11	tp_registro	2	Detalle del Archivo	1
-12	tp_registro	3	Píe del Archivo	1
+COPY nucleo.tablacodigo (cd_tabla_cod, cd_tabla, tx_valor, st_tabla, cd_modulo) FROM stdin;
+1	tp_menu	Título del Menú	1	1
+2	tp_menu	Menú	1	2
+3	tp_menu	SubMenú	1	3
+4	tp_documento	Venezolano	1	V
+5	tp_documento	Extranjero	1	E
+6	tp_documento	Juridico	1	J
+7	tp_documento	Gubernamental	1	G
+8	tp_documento	Especial Único	1	EE
+9	tp_reporte	Reporte en Excel	1	1
+10	tp_registro	Cabecera del archivo	1	1
+11	tp_registro	Detalle del Archivo	1	2
+12	tp_registro	Píe del Archivo	1	3
+13	tp_generacion_archivo	Generación de Cuotas al Banco	1	1
+14	tp_generacion_archivo	Afiliación de Clientes	1	2
+15	tp_generacion_archivo	Validación de Cuotas	1	3
+16	tp_formato	Excel 2003	1	.xls
+17	tp_formato	Excel >= 2007	1	.xlsx
+18	tp_formato	Texto Plano	1	.txt
+19	tp_formato	Texto Separado Por Comas	1	.csv
+20	tp_objeto_ent	Documento Empresa	1	getTpDocumento
+21	tp_objeto_ent	Documento Empresa	1	getTxDocumento
+22	tp_objeto_sal	Tipo Documento Empresa	1	getTpDocumento
+23	tp_objeto_sal	Documento Empresa	1	getTxDocumento
+24	tp_objeto_sal	Nombre de la Empresa	1	getTxEmpresa
+25	tp_objeto_sal	Razon Social Empresa	1	getTxRazonsocial
+26	tp_objeto_sal	Cuenta de la Empresa	1	getTxCuenta
+27	tp_objeto_sal	Monto Total Cabecera	1	getTxMontoTotal
+28	tp_objeto_sal	Cantidad de Registros	1	getTxCantidadRegistros
+29	tp_objecto_sal	Tipo Documento Cliente	1	getTpDocumentoCL
+30	tp_objeto_sal	Documento Cliente	1	getTxDocumentoCL
+31	tp_objeto_sal	Tipo Cuenta Cliente	1	getTpCuentaCL
+32	tp_objeto_sal	Cuenta Bancaria Cliente	1	getTxCuentaCL
+33	tp_objeto_sal	Identificador de Cobro	1	getCdCobro
+34	tp_objeto_sal	Identificador de Cliente	1	getCdCliente
+35	tp_objeto_sal	Nombre del Cliente	1	getTxRazonsocialCL
+36	tp_objeto_sal	Correo Cliente	1	getTxCorreoCL
+37	tp_objeto_sal	Telefono Cliente	1	getTxTelefonoCL
+38	tp_objeto_sal	Monto Formateado	1	getMtCobroStr
+39	tp_objeto_sal	Referencia Alfanúmerica #1	1	getTxReferencia1
+40	tp_objeto_sal	Referencia Alfanúmerica #2	1	getTxReferencia2
+41	tp_objeto_sal	Referencia Alfanúmerica #3	1	getTxReferencia3
+42	tp_objeto_sal	Referencia Alfanúmerica #4	1	getTxReferencia4
+43	tp_objeto_sal	Referencia Númerica #1	1	getTxReferenciaNu1
+44	tp_objeto_sal	Referencia Númerica #2	1	getTxReferenciaNu2
+45	tp_objeto_sal	Número de Lote	1	getNuLote
 \.
 
 
@@ -966,7 +1016,7 @@ SELECT pg_catalog.setval('nucleo.cobros_cd_cobro_seq', 1, false);
 -- Name: configuracion_archivo_cd_configuracion_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
 --
 
-SELECT pg_catalog.setval('nucleo.configuracion_archivo_cd_configuracion_seq', 3, true);
+SELECT pg_catalog.setval('nucleo.configuracion_archivo_cd_configuracion_seq', 5, true);
 
 
 --
@@ -1001,7 +1051,7 @@ SELECT pg_catalog.setval('nucleo.menu_rol_id_seq', 10, true);
 -- Name: menus_cd_menu_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
 --
 
-SELECT pg_catalog.setval('nucleo.menus_cd_menu_seq', 48, true);
+SELECT pg_catalog.setval('nucleo.menus_cd_menu_seq', 49, true);
 
 
 --
@@ -1015,7 +1065,7 @@ SELECT pg_catalog.setval('nucleo.rol_usuario_id_seq', 1, false);
 -- Name: tablacodigo_cd_tabla_cod_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
 --
 
-SELECT pg_catalog.setval('nucleo.tablacodigo_cd_tabla_cod_seq', 12, true);
+SELECT pg_catalog.setval('nucleo.tablacodigo_cd_tabla_cod_seq', 22, true);
 
 
 --
@@ -1175,13 +1225,6 @@ CREATE INDEX idx_or_cd_usuario ON colas.ordenes USING btree (cd_usuario);
 
 
 --
--- Name: fki_fk_ca_cd_banco; Type: INDEX; Schema: nucleo; Owner: postgres
---
-
-CREATE INDEX fki_fk_ca_cd_banco ON nucleo.configuracion_archivo USING btree (cd_banco);
-
-
---
 -- Name: fki_fk_cl_cd_banco; Type: INDEX; Schema: nucleo; Owner: postgres
 --
 
@@ -1282,14 +1325,6 @@ ALTER TABLE ONLY colas.ordenes
 
 ALTER TABLE ONLY nucleo.cobros
     ADD CONSTRAINT fk1aq3v5ctth7k9gu344rga5c59 FOREIGN KEY (cd_cliente) REFERENCES nucleo.clientes(cd_cliente);
-
-
---
--- Name: configuracion_archivo fk_ca_cd_banco; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
---
-
-ALTER TABLE ONLY nucleo.configuracion_archivo
-    ADD CONSTRAINT fk_ca_cd_banco FOREIGN KEY (cd_banco) REFERENCES nucleo.bancos(cd_banco) NOT VALID;
 
 
 --

@@ -17,7 +17,6 @@ class ConfiguracionArchivoModel extends Model
             'nu_lineas_cab'=>'required|numeric',
             'nu_lineas_det'=>'required|numeric',
             'nu_lineas_pie'=>'required|numeric',
-            'cd_banco'=>'required|numeric',
             'tx_nombre_salida'=>'required'
         ];
     }
@@ -46,7 +45,6 @@ class ConfiguracionArchivoModel extends Model
             'nu_lineas_cab'=>'required|numeric',
             'nu_lineas_det'=>'required|numeric',
             'nu_lineas_pie'=>'required|numeric',
-            'cd_banco'=>'required|numeric',
             'tx_separador'=>'required',
             'tx_nombre_salida'=>'required|unique:pgsql.nucleo.configuracion_archivo'
         ];

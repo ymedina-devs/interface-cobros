@@ -13,7 +13,7 @@ class CuentasbancariasController extends Controller
     	$varModelo=new \App\nucleo\BancosModel;
     	$varBancos=$varModelo->get();
     	$sesionEmpresa=Session::get('usuario')['authcdempresa'];
-    	$select="SELECT * from nucleo.empresas empr, nucleo.tablacodigo taco where empr.tp_documento::integer=taco.cd_modulo
+    	$select="SELECT * from nucleo.empresas empr, nucleo.tablacodigo taco where empr.tp_documento=taco.cd_modulo
     	and taco.cd_tabla='tp_documento' and empr.cd_empresa=?";
     	$varEmpresas=DB::select($select,[$sesionEmpresa]);
     	return view('cuentasbancarias.principal',compact('varEmpresas','varBancos'));

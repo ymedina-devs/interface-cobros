@@ -5,12 +5,12 @@
         <div class="pcoded-wrapper">
             <div class="pcoded-content">
                 <div class="pcoded-inner-content">
-                    <input type="text" name="valorSolicitud" value="configuracionarchivo" hidden>
+                    <input type="text" name="valorSolicitud" value="estructura" hidden>
                     <div class="main-body">
                         <div class="page-wrapper">
-                            @include('estructura.tablaMostrarConfiguracionArchivo')
-                            @include('estructura.formularioInsertarConfiguracionArchivo',['bancos'=>$varBancos])
-                            @include('estructura.formularioActualizarConfiguracionArchivo',['bancos'=>$varBancos])
+                            @include('estructura.tablaMostrarEstructura')
+                           
+                            
                         </div>
                     </div>
                 </div>
@@ -19,4 +19,4 @@
     </div>
 
 
-@include('layout.footer',['varScript'=>'<script src="assets/js/estructura/mostrarEstructura.js"></script><script src="assets/js/nucleo/insertarFormulario.js"></script></script><script src="assets/js/nucleo/actualizarFormulario.js"></script>'])
+@include('layout.footer',['varScript'=>'<script src="assets/js/estructura/mostrarEstructuraArchivo.js"></script><script src="assets/js/nucleo/insertarFormulario.js"></script></script><script src="assets/js/nucleo/actualizarFormulario.js"></script>'])

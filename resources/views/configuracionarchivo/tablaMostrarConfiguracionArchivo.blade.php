@@ -19,7 +19,7 @@
                                 <th>Caracteres para Cabecera</th>
                                 <th>Caracteres para Detalle</th>
                                 <th>Caracteres para Pie</th>
-                                <th>Banco</th>
+                            
                                 <th>Separador</th>
                                 <th>Nombre de Salida</th>
                                 <th>Acciones</th>

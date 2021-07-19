@@ -14,7 +14,7 @@ class TablaCodigoModel extends Model
      static function returnValidationsUpd(){
         return $validations=[
             'tx_valor'=>'required',
-            'cd_modulo'=>'required|numeric',
+            'cd_modulo'=>'required',
             'cd_tabla'=>'required'
         ];
     }
@@ -30,7 +30,7 @@ class TablaCodigoModel extends Model
     static function returnValidations(){
         return $validations=[
             'tx_valor'=>'required',
-            'cd_modulo'=>'required|numeric',
+            'cd_modulo'=>'required',
             'cd_tabla'=>'required'
         ];
     }

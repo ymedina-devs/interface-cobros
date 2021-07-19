@@ -80,4 +80,26 @@ function funcTransferirValorInputTxFormato(){
 	varInputTxFormato.val(varSplitValorSelect[0]);
 }
 
+function funcGenerarBusqueda(){
+	var selectBanco=$('select[name="cd_banco"] option:selected').val();
+	var selectTpRegistro=$('select[name="tp_registro"] option:selected').val();
+	var selectTpArchivo=$('select[name="tp_archivo"] option:selected').val();
+	var tablaHtml='<div class="table-responsive">'
+		'<table class="table table-striped " id="dt-mostrar-valores-configuracionarchivo" class="display" style="width:100%">'+
+			'<thead>' +
+				'<tr>'+
+					'<th>Tipo de Archivo</th>'+
+					'<th>Formato del Archivo</th>'+
+					'<th>Caracteres para Cabecera</th>'+
+					'<th>Caracteres para Detalle</th>'+
+					'<th>Caracteres para Pie</th>'+
+					'<th>Separador</th>'+
+					'<th>Nombre de Salida</th>'+
+					'<th>Acciones</th>'+
+				'</tr>'+
+			'</thead>'+
+		'</table>'+
+	'</div>';
+}
+
 

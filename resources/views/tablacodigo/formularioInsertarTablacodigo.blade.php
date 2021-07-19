@@ -23,7 +23,7 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="">Código del Módulo</label>
-									<input type="number" name="cd_modulo"  class="form-control"  placeholder="">
+									<input type="text" name="cd_modulo"  class="form-control"  placeholder="">
 									<div id="cd_modulo"></div>
 								</div>
 							</div>
