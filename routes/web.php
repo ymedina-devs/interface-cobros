@@ -13,11 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::middleware(['autorizacion'])->group(function () {
 	Route::get('/usuarios.principal','UsuariosController@index');
 	Route::get('/seguridad.principal','MenuController@index');
+	Route::get('/bancos.principal','BancosController@index');
+	Route::get('/empresas.principal','EmpresasController@index');
+	Route::get('/tablacodigo.principal','TablacodigoController@index');
+	Route::get('/cuentasbancarias.principal','CuentasbancariasController@index');
+	Route::get('/ordenes.principal','OrdenesController@index');
+	Route::get('/estructura.principal','EstructuraController@index');
 	Route::get('/welcome', function () {
 		return view('welcome');
 	})->name('welcome');
@@ -44,7 +48,38 @@ Route::middleware(['autorizacion.defecto'])->group(function () {
 	Route::get('/menurol.consultar.reg/{id}','MenuController@funcConsultarMenuRolID');
 	Route::post('/menurol.actualizar','MenuController@funcActualizarFormularioMenuRol');
 
+	Route::get('/bancos.consultar','BancosController@funcConsultarBancos');
+	Route::post('/bancos.registrar','BancosController@funcInsertarFormulario');
+	Route::get('/bancos.consultar.reg/{cd_banco}','BancosController@funcConsultarBancosID');
+	Route::post('/bancos.actualizar','BancosController@funcActualizarFormularioBancos');
+	
+	Route::get('/empresas.consultar','EmpresasController@funcConsultarEmpresas');
+	Route::post('/empresas.registrar','EmpresasController@funcInsertarFormulario');
+	Route::get('/empresas.consultar.reg/{cd_banco}','EmpresasController@funcConsultarEmpresasID');
+	Route::post('/empresas.actualizar','EmpresasController@funcActualizarFormularioEmpresas');
+
+	Route::get('/tablacodigo.consultar','TablacodigoController@funcConsultarTablacodigo');
+	Route::post('/tablacodigo.registrar','TablacodigoController@funcInsertarFormulario');
+	Route::get('/tablacodigo.consultar.reg/{cd_banco}','TablacodigoController@funcConsultarTablacodigoID');
+	Route::post('/tablacodigo.actualizar','TablacodigoController@funcActualizarFormularioTablacodigo');
+
+	Route::get('/cuentasbancarias.consultar','CuentasbancariasController@funcConsultarCuentasbancarias');
+	Route::post('/cuentasbancarias.registrar','CuentasbancariasController@funcInsertarFormulario');
+	Route::get('/cuentasbancarias.consultar.reg/{cd_banco}','CuentasbancariasController@funcConsultarCuentasbancariasID');
+	Route::post('/cuentasbancarias.actualizar','CuentasbancariasController@funcActualizarFormularioCuentasbancarias');
+	Route::get('/cuentasbancarias.buscarverificadobanco/{cd_banco}','CuentasbancariasController@funcBuscarVerificadorBanco');
+
+	Route::get('/ordenes.consultar','OrdenesController@funcMostrarOrdenesPorTipo');
+	
+	Route::get('/configuracionarchivo.consultar','EstructuraController@funcConsultarEstructura');
+	Route::post('/configuracionarchivo.registrar','EstructuraController@funcInsertarFormulario');
+	Route::get('/configuracionarchivo.consultar.reg/{cd_banco}','EstructuraController@funcConsultarConfiguracionArchivoID');
+	Route::post('/configuracionarchivo.actualizar','EstructuraController@funcActualizarFormularioConfiguracionArchivo');
+	
+
 });
+
+
 
 
 

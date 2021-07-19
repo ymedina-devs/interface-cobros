@@ -39,7 +39,7 @@
 										<option value="null">No posee</option>
 										<option value="feather icon-airplay">icon-airplay</option>
 										<option value="feather icon-bar-chart-2">icon-bar-chart-2</option>
-										<option value="feather icon-briefcases">icon-briefcases</option>
+										<option value="feather icon-briefcase">icon-briefcases</option>
 										<option value="feather icon-compass">icon-compass</option>
 										<option value="feather icon-layers">icon-layers</option>
 										<option value="feather icon-list">icon-list</option>

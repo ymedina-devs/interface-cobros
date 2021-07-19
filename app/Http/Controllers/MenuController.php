@@ -36,7 +36,7 @@ class MenuController extends Controller
                         <label>'.$key2->tx_menu.'</label>
                     </li>';
                 $varBusquedaTitulo='
-		    	SELECT menu.cd_padre,menu.tx_icono,menu.tx_menu,menu.cd_menu
+		    	SELECT menu.cd_padre,menu.tx_icono,menu.tx_menu,menu.cd_menu,menu.tx_color
 				    		FROM nucleo.menus menu,nucleo.usuarios usua,nucleo.rol_usuario rous , nucleo.menu_rol mero
 							where usua.cd_usuario=?
 							and usua.cd_usuario=rous.cd_usuario
@@ -44,12 +44,12 @@ class MenuController extends Controller
 							and menu.cd_menu=mero.cd_menu
 							and menu.tp_menu=2
 							and menu.cd_padre='.$key2->cd_menu.'
-							order by nu_consecutivo';
+							order by nu_consecutivo,tx_menu';
 				$varMenu=DB::select($varBusquedaTitulo,[$varUsuario]);
 				$varSubmenu='';
                 foreach ($varMenu as $key3) {
                 	$varSubmenu.='<li class="nav-item pcoded-hasmenu">';
-                	$varSubmenu.='<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="'.$key3->tx_icono.'"></i></span><span class="pcoded-mtext">'.$key3->tx_menu.'</span></a>';
+                	$varSubmenu.='<a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="'.$key3->tx_icono.'" style="color:#a9a086"></i></span><span class="pcoded-mtext">'.$key3->tx_menu.'</span></a>';
                 	$varSubmenu.='<ul class="pcoded-submenu" style="display: none;">';
                 	$varBusquedaTitulo='
 		    		SELECT * from nucleo.menus menu where menu.cd_padre='.$key3->cd_menu.' and menu.tp_menu=3 
@@ -57,7 +57,7 @@ class MenuController extends Controller
 					$varMenu=DB::select($varBusquedaTitulo);
 					$varEnlaces='';
 					foreach ($varMenu as $key4) {
-						$varEnlaces.=' <li class=""><a href="'.$key4->tx_enlace.'" class="" target="_blank">'.$key4->tx_menu.'</a></li>';
+						$varEnlaces.=' <li class=""><a href="./'.$key4->tx_enlace.'" >'.$key4->tx_menu.'</a></li>';
 					}
                 	$varSubmenu.=$varEnlaces.'</ul>';
                 	$varSubmenu.='</li>';

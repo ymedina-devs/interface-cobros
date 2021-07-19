@@ -26,7 +26,7 @@
 						</div>
 					</form>
 					<div class="col-md-2 offset-md-10">
-						<button class="btn btn-info" onclick="funcInsertarFormulario('ac-roles','/roles.actualizar')">Guardar Registro</button>
+						<button class="btn btn-info" onclick="funcInsertarFormulario('ac-bancos','/bancos.actualizar')">Guardar Registro</button>
 					</div>
 				</div>
 			</div>

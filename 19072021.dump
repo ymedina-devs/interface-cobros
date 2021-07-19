@@ -1,0 +1,1346 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.16
+-- Dumped by pg_dump version 10.16
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: colas; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA colas;
+
+
+ALTER SCHEMA colas OWNER TO postgres;
+
+--
+-- Name: nucleo; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA nucleo;
+
+
+ALTER SCHEMA nucleo OWNER TO postgres;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: ordenes; Type: TABLE; Schema: colas; Owner: postgres
+--
+
+CREATE TABLE colas.ordenes (
+    cd_orden bigint NOT NULL,
+    cd_programa integer,
+    fe_proceso date,
+    st_proceso integer,
+    tp_orden integer,
+    parametro1 character varying(200),
+    parametro2 character varying(200),
+    parametro3 character varying(200),
+    parametro4 character varying(200),
+    parametro5 character varying(200),
+    parametro6 character varying(200),
+    fe_desde date,
+    fe_hasta date,
+    fe_desde1 date,
+    fe_hasta1 date,
+    tp_reporte integer,
+    cd_usuario character varying(100),
+    cd_empresa integer,
+    tx_nombre_salida character varying(200),
+    tx_directorio_salida character varying(500),
+    tp_archivo integer,
+    cd_banco integer,
+    cd_cola integer
+);
+
+
+ALTER TABLE colas.ordenes OWNER TO postgres;
+
+--
+-- Name: ordenes_cd_orden_seq; Type: SEQUENCE; Schema: colas; Owner: postgres
+--
+
+CREATE SEQUENCE colas.ordenes_cd_orden_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE colas.ordenes_cd_orden_seq OWNER TO postgres;
+
+--
+-- Name: ordenes_cd_orden_seq; Type: SEQUENCE OWNED BY; Schema: colas; Owner: postgres
+--
+
+ALTER SEQUENCE colas.ordenes_cd_orden_seq OWNED BY colas.ordenes.cd_orden;
+
+
+--
+-- Name: programas; Type: TABLE; Schema: colas; Owner: postgres
+--
+
+CREATE TABLE colas.programas (
+    cd_programa integer NOT NULL,
+    tx_programa character varying(100),
+    tx_descripcion character varying(100),
+    st_registro integer,
+    cd_cola integer
+);
+
+
+ALTER TABLE colas.programas OWNER TO postgres;
+
+--
+-- Name: programas_cd_programa_seq; Type: SEQUENCE; Schema: colas; Owner: postgres
+--
+
+CREATE SEQUENCE colas.programas_cd_programa_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE colas.programas_cd_programa_seq OWNER TO postgres;
+
+--
+-- Name: programas_cd_programa_seq; Type: SEQUENCE OWNED BY; Schema: colas; Owner: postgres
+--
+
+ALTER SEQUENCE colas.programas_cd_programa_seq OWNED BY colas.programas.cd_programa;
+
+
+--
+-- Name: bancos; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.bancos (
+    cd_banco integer NOT NULL,
+    tx_banco character varying(200),
+    cd_verificador character varying(4),
+    st_registro integer
+);
+
+
+ALTER TABLE nucleo.bancos OWNER TO postgres;
+
+--
+-- Name: bitacora; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.bitacora (
+    cd_consecutivo_archivo bigint NOT NULL,
+    cd_empresa integer,
+    tx_archivo character varying(200),
+    tp_archivo integer,
+    tp_emisor integer,
+    st_registro integer,
+    cd_consecutivo_empresa integer,
+    fe_registro timestamp without time zone
+);
+
+
+ALTER TABLE nucleo.bitacora OWNER TO postgres;
+
+--
+-- Name: bitacora_cd_consecutivo_archivo_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.bitacora_cd_consecutivo_archivo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.bitacora_cd_consecutivo_archivo_seq OWNER TO postgres;
+
+--
+-- Name: bitacora_cd_consecutivo_archivo_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.bitacora_cd_consecutivo_archivo_seq OWNED BY nucleo.bitacora.cd_consecutivo_archivo;
+
+
+--
+-- Name: clientes; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.clientes (
+    cd_cliente bigint NOT NULL,
+    cd_empresa integer,
+    fe_registro timestamp without time zone,
+    st_afiliacion integer,
+    st_registro integer,
+    tp_cuenta integer,
+    tp_documento integer,
+    tx_correo character varying(100),
+    tx_cuenta character varying(20),
+    tx_documento character varying(20),
+    tx_razonsocial character varying(200),
+    tx_telefono character varying(20),
+    cd_banco integer
+);
+
+
+ALTER TABLE nucleo.clientes OWNER TO postgres;
+
+--
+-- Name: clientes_cd_cliente_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.clientes_cd_cliente_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.clientes_cd_cliente_seq OWNER TO postgres;
+
+--
+-- Name: clientes_cd_cliente_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.clientes_cd_cliente_seq OWNED BY nucleo.clientes.cd_cliente;
+
+
+--
+-- Name: cobros; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.cobros (
+    cd_cobro integer NOT NULL,
+    cd_empresa integer,
+    mt_cobro double precision,
+    tx_respuesta character varying(200),
+    st_cobro integer,
+    tx_referencia1 character varying(100),
+    tx_referencia2 character varying(100),
+    tx_referencia3 character varying(100),
+    tx_referencia4 character varying(100),
+    tx_referencia_nu1 integer,
+    tx_referencia_nu2 integer,
+    cd_consecutivo_archivo integer,
+    nu_lote integer,
+    fe_cobro date,
+    mt_cobro_str character varying(100),
+    fe_registro date,
+    cd_cliente integer,
+    tx_error character varying(255)
+);
+
+
+ALTER TABLE nucleo.cobros OWNER TO postgres;
+
+--
+-- Name: cobros_cd_cobro_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.cobros_cd_cobro_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.cobros_cd_cobro_seq OWNER TO postgres;
+
+--
+-- Name: cobros_cd_cobro_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.cobros_cd_cobro_seq OWNED BY nucleo.cobros.cd_cobro;
+
+
+--
+-- Name: configuracion_archivo; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.configuracion_archivo (
+    cd_configuracion integer NOT NULL,
+    tx_tipo character varying(200),
+    tx_formato character varying(100),
+    nu_lineas_cab integer,
+    nu_lineas_det integer,
+    nu_lineas_pie integer,
+    cd_banco integer,
+    tx_separador character varying(3),
+    tx_nombre_salida character varying(100)
+);
+
+
+ALTER TABLE nucleo.configuracion_archivo OWNER TO postgres;
+
+--
+-- Name: configuracion_archivo_cd_configuracion_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.configuracion_archivo_cd_configuracion_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.configuracion_archivo_cd_configuracion_seq OWNER TO postgres;
+
+--
+-- Name: configuracion_archivo_cd_configuracion_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.configuracion_archivo_cd_configuracion_seq OWNED BY nucleo.configuracion_archivo.cd_configuracion;
+
+
+--
+-- Name: cuentasbancarias; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.cuentasbancarias (
+    cd_cuentabancaria integer NOT NULL,
+    cd_empresa integer,
+    tx_cuenta character varying(20),
+    cd_banco integer,
+    nu_lote integer,
+    tx_ruta character varying(200),
+    tx_afiliacion integer,
+    tx_carta integer,
+    tx_nombre_archivo_salida character varying(150),
+    st_registro integer
+);
+
+
+ALTER TABLE nucleo.cuentasbancarias OWNER TO postgres;
+
+--
+-- Name: cuentasbancarias_cd_cuentabancaria_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.cuentasbancarias_cd_cuentabancaria_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.cuentasbancarias_cd_cuentabancaria_seq OWNER TO postgres;
+
+--
+-- Name: cuentasbancarias_cd_cuentabancaria_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.cuentasbancarias_cd_cuentabancaria_seq OWNED BY nucleo.cuentasbancarias.cd_cuentabancaria;
+
+
+--
+-- Name: empresas; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.empresas (
+    cd_empresa integer NOT NULL,
+    tx_empresa character varying(100),
+    tx_documento character varying(15),
+    tp_documento character varying(2),
+    st_registro integer,
+    tx_icono character varying(200),
+    tx_razonsocial character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE nucleo.empresas OWNER TO postgres;
+
+--
+-- Name: empresas_cd_empresa_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.empresas_cd_empresa_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.empresas_cd_empresa_seq OWNER TO postgres;
+
+--
+-- Name: empresas_cd_empresa_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.empresas_cd_empresa_seq OWNED BY nucleo.empresas.cd_empresa;
+
+
+--
+-- Name: estructura; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.estructura (
+    cd_estructura bigint NOT NULL,
+    cd_configuracion integer,
+    tx_inicio integer,
+    tx_fin integer,
+    tx_columna integer,
+    tx_patron_regular character varying(100),
+    tx_valor_defecto character varying(100),
+    tx_objeto_cobro_entrada character varying(100),
+    tx_objeto_cobro_salida character varying(100),
+    tp_registro integer,
+    tx_nombre character varying(100),
+    tx_orientacion_relleno character varying(1),
+    tx_relleno character varying(3),
+    cd_banco integer,
+    tx_consecutivo_registro integer,
+    tx_clase_objeto character varying(100),
+    tx_funcion_cobro character varying(100)
+);
+
+
+ALTER TABLE nucleo.estructura OWNER TO postgres;
+
+--
+-- Name: estructura_cd_estructura_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.estructura_cd_estructura_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.estructura_cd_estructura_seq OWNER TO postgres;
+
+--
+-- Name: estructura_cd_estructura_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.estructura_cd_estructura_seq OWNED BY nucleo.estructura.cd_estructura;
+
+
+--
+-- Name: menu_rol; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.menu_rol (
+    id bigint NOT NULL,
+    cd_rol character varying(100),
+    cd_menu integer
+);
+
+
+ALTER TABLE nucleo.menu_rol OWNER TO postgres;
+
+--
+-- Name: menu_rol_id_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.menu_rol_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.menu_rol_id_seq OWNER TO postgres;
+
+--
+-- Name: menu_rol_id_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.menu_rol_id_seq OWNED BY nucleo.menu_rol.id;
+
+
+--
+-- Name: menus; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.menus (
+    cd_menu integer NOT NULL,
+    tx_menu character varying(100),
+    tx_enlace character varying(150),
+    tx_icono character varying(150),
+    cd_padre integer,
+    tp_menu integer,
+    nu_consecutivo integer,
+    tx_color character varying(100)
+);
+
+
+ALTER TABLE nucleo.menus OWNER TO postgres;
+
+--
+-- Name: menus_cd_menu_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.menus_cd_menu_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.menus_cd_menu_seq OWNER TO postgres;
+
+--
+-- Name: menus_cd_menu_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.menus_cd_menu_seq OWNED BY nucleo.menus.cd_menu;
+
+
+--
+-- Name: rol_usuario; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.rol_usuario (
+    id integer NOT NULL,
+    cd_rol character varying(100),
+    cd_usuario character varying(100)
+);
+
+
+ALTER TABLE nucleo.rol_usuario OWNER TO postgres;
+
+--
+-- Name: rol_usuario_id_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.rol_usuario_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.rol_usuario_id_seq OWNER TO postgres;
+
+--
+-- Name: rol_usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.rol_usuario_id_seq OWNED BY nucleo.rol_usuario.id;
+
+
+--
+-- Name: roles; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.roles (
+    cd_rol character varying(30) NOT NULL,
+    tx_rol character varying(120),
+    st_rol integer
+);
+
+
+ALTER TABLE nucleo.roles OWNER TO postgres;
+
+--
+-- Name: tablacodigo; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.tablacodigo (
+    cd_tabla_cod bigint NOT NULL,
+    cd_tabla character varying(100),
+    cd_modulo integer,
+    tx_valor character varying(150),
+    st_tabla integer
+);
+
+
+ALTER TABLE nucleo.tablacodigo OWNER TO postgres;
+
+--
+-- Name: tablacodigo_cd_tabla_cod_seq; Type: SEQUENCE; Schema: nucleo; Owner: postgres
+--
+
+CREATE SEQUENCE nucleo.tablacodigo_cd_tabla_cod_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nucleo.tablacodigo_cd_tabla_cod_seq OWNER TO postgres;
+
+--
+-- Name: tablacodigo_cd_tabla_cod_seq; Type: SEQUENCE OWNED BY; Schema: nucleo; Owner: postgres
+--
+
+ALTER SEQUENCE nucleo.tablacodigo_cd_tabla_cod_seq OWNED BY nucleo.tablacodigo.cd_tabla_cod;
+
+
+--
+-- Name: usuarios; Type: TABLE; Schema: nucleo; Owner: postgres
+--
+
+CREATE TABLE nucleo.usuarios (
+    cd_usuario character varying(20) NOT NULL,
+    tx_clave character varying(256),
+    fe_registro time with time zone,
+    tx_nombre character varying(150),
+    st_registro integer,
+    cd_usuario_ext character varying(100),
+    cd_empresa integer
+);
+
+
+ALTER TABLE nucleo.usuarios OWNER TO postgres;
+
+--
+-- Name: ordenes cd_orden; Type: DEFAULT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.ordenes ALTER COLUMN cd_orden SET DEFAULT nextval('colas.ordenes_cd_orden_seq'::regclass);
+
+
+--
+-- Name: programas cd_programa; Type: DEFAULT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.programas ALTER COLUMN cd_programa SET DEFAULT nextval('colas.programas_cd_programa_seq'::regclass);
+
+
+--
+-- Name: bitacora cd_consecutivo_archivo; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.bitacora ALTER COLUMN cd_consecutivo_archivo SET DEFAULT nextval('nucleo.bitacora_cd_consecutivo_archivo_seq'::regclass);
+
+
+--
+-- Name: clientes cd_cliente; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.clientes ALTER COLUMN cd_cliente SET DEFAULT nextval('nucleo.clientes_cd_cliente_seq'::regclass);
+
+
+--
+-- Name: cobros cd_cobro; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cobros ALTER COLUMN cd_cobro SET DEFAULT nextval('nucleo.cobros_cd_cobro_seq'::regclass);
+
+
+--
+-- Name: configuracion_archivo cd_configuracion; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.configuracion_archivo ALTER COLUMN cd_configuracion SET DEFAULT nextval('nucleo.configuracion_archivo_cd_configuracion_seq'::regclass);
+
+
+--
+-- Name: cuentasbancarias cd_cuentabancaria; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cuentasbancarias ALTER COLUMN cd_cuentabancaria SET DEFAULT nextval('nucleo.cuentasbancarias_cd_cuentabancaria_seq'::regclass);
+
+
+--
+-- Name: empresas cd_empresa; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.empresas ALTER COLUMN cd_empresa SET DEFAULT nextval('nucleo.empresas_cd_empresa_seq'::regclass);
+
+
+--
+-- Name: estructura cd_estructura; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.estructura ALTER COLUMN cd_estructura SET DEFAULT nextval('nucleo.estructura_cd_estructura_seq'::regclass);
+
+
+--
+-- Name: menu_rol id; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.menu_rol ALTER COLUMN id SET DEFAULT nextval('nucleo.menu_rol_id_seq'::regclass);
+
+
+--
+-- Name: menus cd_menu; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.menus ALTER COLUMN cd_menu SET DEFAULT nextval('nucleo.menus_cd_menu_seq'::regclass);
+
+
+--
+-- Name: rol_usuario id; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.rol_usuario ALTER COLUMN id SET DEFAULT nextval('nucleo.rol_usuario_id_seq'::regclass);
+
+
+--
+-- Name: tablacodigo cd_tabla_cod; Type: DEFAULT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.tablacodigo ALTER COLUMN cd_tabla_cod SET DEFAULT nextval('nucleo.tablacodigo_cd_tabla_cod_seq'::regclass);
+
+
+--
+-- Data for Name: ordenes; Type: TABLE DATA; Schema: colas; Owner: postgres
+--
+
+COPY colas.ordenes (cd_orden, cd_programa, fe_proceso, st_proceso, tp_orden, parametro1, parametro2, parametro3, parametro4, parametro5, parametro6, fe_desde, fe_hasta, fe_desde1, fe_hasta1, tp_reporte, cd_usuario, cd_empresa, tx_nombre_salida, tx_directorio_salida, tp_archivo, cd_banco, cd_cola) FROM stdin;
+1	2	\N	2	1	1	\N	\N	\N	\N	\N	2021-03-01	2021-04-01	\N	\N	1	YMEDINA	1	JRPC01_1.xlsx	./salida/JRPC01_1.xlsx	1	1	1
+\.
+
+
+--
+-- Data for Name: programas; Type: TABLE DATA; Schema: colas; Owner: postgres
+--
+
+COPY colas.programas (cd_programa, tx_programa, tx_descripcion, st_registro, cd_cola) FROM stdin;
+1	JRCOBR001	Reporte de Cobros	1	1
+2	JRPC01	Reporte Prueba	1	1
+\.
+
+
+--
+-- Data for Name: bancos; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.bancos (cd_banco, tx_banco, cd_verificador, st_registro) FROM stdin;
+3	Banco de Venezuela	0102	1
+6	Banco Caribe	0171	1
+13	Banco Fondo Común	0114	1
+23	Banco Nacional de Crédito	0180	1
+30	Banco Bicentenario	0177	1
+32	Banco de Tesoro	0182	1
+14	Banesco	0134	1
+1	Banco Provincial	0108	1
+12	Banco Mercantil	0105	1
+19	Banco Occidental de Descuento BOD	0179	1
+99	Administrador	9999	1
+\.
+
+
+--
+-- Data for Name: bitacora; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.bitacora (cd_consecutivo_archivo, cd_empresa, tx_archivo, tp_archivo, tp_emisor, st_registro, cd_consecutivo_empresa, fe_registro) FROM stdin;
+\.
+
+
+--
+-- Data for Name: clientes; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.clientes (cd_cliente, cd_empresa, fe_registro, st_afiliacion, st_registro, tp_cuenta, tp_documento, tx_correo, tx_cuenta, tx_documento, tx_razonsocial, tx_telefono, cd_banco) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cobros; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.cobros (cd_cobro, cd_empresa, mt_cobro, tx_respuesta, st_cobro, tx_referencia1, tx_referencia2, tx_referencia3, tx_referencia4, tx_referencia_nu1, tx_referencia_nu2, cd_consecutivo_archivo, nu_lote, fe_cobro, mt_cobro_str, fe_registro, cd_cliente, tx_error) FROM stdin;
+\.
+
+
+--
+-- Data for Name: configuracion_archivo; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.configuracion_archivo (cd_configuracion, tx_tipo, tx_formato, nu_lineas_cab, nu_lineas_det, nu_lineas_pie, cd_banco, tx_separador, tx_nombre_salida) FROM stdin;
+1	Archivo de Texto	.txt	150	150	0	1	/	GENCOB.0108
+2	.txt	.txt	0	1	0	1	/	DOMICOB.0108
+3	Archivo de Texto	.txt	0	1	0	3	\N	DOMICOB.0102
+\.
+
+
+--
+-- Data for Name: cuentasbancarias; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.cuentasbancarias (cd_cuentabancaria, cd_empresa, tx_cuenta, cd_banco, nu_lote, tx_ruta, tx_afiliacion, tx_carta, tx_nombre_archivo_salida, st_registro) FROM stdin;
+1	1	01140102030405060708	13	1254	LAFE0114	0	1	GECOB.0114	1
+2	1	01028070605040302011	3	1020	LAFE0102	1	1	GECOB.0102	1
+\.
+
+
+--
+-- Data for Name: empresas; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.empresas (cd_empresa, tx_empresa, tx_documento, tp_documento, st_registro, tx_icono, tx_razonsocial, created_at, updated_at) FROM stdin;
+2	Yorman Soluciones	23695018	1	1	/sadasd/asdasd	\N	\N	\N
+1	Seguros La Fe, CA	00495252	3	1	/assets/images/seguroslafe.jpg	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: estructura; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.estructura (cd_estructura, cd_configuracion, tx_inicio, tx_fin, tx_columna, tx_patron_regular, tx_valor_defecto, tx_objeto_cobro_entrada, tx_objeto_cobro_salida, tp_registro, tx_nombre, tx_orientacion_relleno, tx_relleno, cd_banco, tx_consecutivo_registro, tx_clase_objeto, tx_funcion_cobro) FROM stdin;
+\.
+
+
+--
+-- Data for Name: menu_rol; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.menu_rol (id, cd_rol, cd_menu) FROM stdin;
+1	BASICO	28
+3	BASICO	34
+5	AVANZADO	34
+6	ADMIN	32
+4	AVANZADO	28
+2	ADMIN	32
+7	BASICO	39
+8	BASICO	41
+9	BASICO	44
+10	BASICO	46
+\.
+
+
+--
+-- Data for Name: menus; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.menus (cd_menu, tx_menu, tx_enlace, tx_icono, cd_padre, tp_menu, nu_consecutivo, tx_color) FROM stdin;
+27	Configuración	null	null	0	1	1	\N
+29	Roles y Menús	seguridad.principal	null	28	3	1	\N
+31	Domicilio Bancario	domicilio.padre	null	0	1	2	\N
+33	Extracción de Cobros	domicilio.dolares.carga	null	32	3	2	\N
+35	Bancos	bancos.principal	null	34	3	2	\N
+30	Usuarios	usuarios.principal	null	28	3	1	\N
+36	Empresas	empresas.principal	null	34	3	2	\N
+37	Generación de Cobros	domicilio.dolares.generacion	null	32	3	2	\N
+38	Tablas Paramétricas	tablacodigo.principal	null	34	3	2	\N
+40	Cuentas Bancarias	cuentasbancarias.principal	null	39	3	1	\N
+28	Seguridad	seguridad	feather icon-server	27	2	1	#e24c6f
+32	Gestión Producto Dólares	domicilio.dolares	feather icon-globe	31	2	2	#4ce2c0
+34	Parámetros Comerciales	parametros.comerciales	feather icon-layers	27	2	1	#c4e24c
+39	Mi Empresa	cuentasbancarias	feather icon-briefcase	27	2	1	#e29f4c
+43	Reportería	reportes	null	0	1	3	\N
+41	Órdenes Archivos	ordenes	feather icon-airplay	31	2	2	#9690e8
+44	Órdenes Reportería	ordenesreportes	feather icon-list	43	2	3	\N
+46	Cartera	cartera	feather icon-compass	43	2	3	\N
+47	Reporte Prueba	reportes.prueba	null	46	3	3	\N
+42	Listado de Órdenes	ordenesarchivos	null	41	3	2	\N
+45	Ordenes Ejecutadas	ordenes.principal	null	44	3	3	\N
+48	Estructura de Archivos	estructura.principal	null	34	3	1	\N
+\.
+
+
+--
+-- Data for Name: rol_usuario; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.rol_usuario (id, cd_rol, cd_usuario) FROM stdin;
+1	BASICO	YMEDINA
+\.
+
+
+--
+-- Data for Name: roles; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.roles (cd_rol, tx_rol, st_rol) FROM stdin;
+BASICO	Rol basico	1
+ADMIN	Rol de administrador	1
+AVANZADO	Rol avanzado	1
+\.
+
+
+--
+-- Data for Name: tablacodigo; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.tablacodigo (cd_tabla_cod, cd_tabla, cd_modulo, tx_valor, st_tabla) FROM stdin;
+1	tp_menu	1	Título del Menú	1
+2	tp_menu	2	Menú	1
+3	tp_menu	3	SubMenú	1
+4	tp_documento	1	Venezolano	1
+5	tp_documento	2	Extranjero	1
+6	tp_documento	3	Juridico	1
+7	tp_documento	4	Gubernamental	1
+8	tp_documento	5	Especial Único	1
+9	tp_reporte	1	Reporte en Excel	1
+10	tp_registro	1	Cabecera del archivo	1
+11	tp_registro	2	Detalle del Archivo	1
+12	tp_registro	3	Píe del Archivo	1
+\.
+
+
+--
+-- Data for Name: usuarios; Type: TABLE DATA; Schema: nucleo; Owner: postgres
+--
+
+COPY nucleo.usuarios (cd_usuario, tx_clave, fe_registro, tx_nombre, st_registro, cd_usuario_ext, cd_empresa) FROM stdin;
+YMEDINA	102030	\N	Yorman Medina	1	ECOLAFE2	1
+YDUQUE	102030$a	\N	Yuan Medina	\N	ECOLAFE	1
+\.
+
+
+--
+-- Name: ordenes_cd_orden_seq; Type: SEQUENCE SET; Schema: colas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('colas.ordenes_cd_orden_seq', 1, false);
+
+
+--
+-- Name: programas_cd_programa_seq; Type: SEQUENCE SET; Schema: colas; Owner: postgres
+--
+
+SELECT pg_catalog.setval('colas.programas_cd_programa_seq', 1, false);
+
+
+--
+-- Name: bitacora_cd_consecutivo_archivo_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.bitacora_cd_consecutivo_archivo_seq', 1, false);
+
+
+--
+-- Name: clientes_cd_cliente_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.clientes_cd_cliente_seq', 1, false);
+
+
+--
+-- Name: cobros_cd_cobro_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.cobros_cd_cobro_seq', 1, false);
+
+
+--
+-- Name: configuracion_archivo_cd_configuracion_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.configuracion_archivo_cd_configuracion_seq', 3, true);
+
+
+--
+-- Name: cuentasbancarias_cd_cuentabancaria_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.cuentasbancarias_cd_cuentabancaria_seq', 2, true);
+
+
+--
+-- Name: empresas_cd_empresa_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.empresas_cd_empresa_seq', 2, true);
+
+
+--
+-- Name: estructura_cd_estructura_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.estructura_cd_estructura_seq', 1, false);
+
+
+--
+-- Name: menu_rol_id_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.menu_rol_id_seq', 10, true);
+
+
+--
+-- Name: menus_cd_menu_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.menus_cd_menu_seq', 48, true);
+
+
+--
+-- Name: rol_usuario_id_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.rol_usuario_id_seq', 1, false);
+
+
+--
+-- Name: tablacodigo_cd_tabla_cod_seq; Type: SEQUENCE SET; Schema: nucleo; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nucleo.tablacodigo_cd_tabla_cod_seq', 12, true);
+
+
+--
+-- Name: ordenes ordenes_pkey; Type: CONSTRAINT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.ordenes
+    ADD CONSTRAINT ordenes_pkey PRIMARY KEY (cd_orden);
+
+
+--
+-- Name: programas programas_pkey; Type: CONSTRAINT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.programas
+    ADD CONSTRAINT programas_pkey PRIMARY KEY (cd_programa);
+
+
+--
+-- Name: bancos bancos_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.bancos
+    ADD CONSTRAINT bancos_pkey PRIMARY KEY (cd_banco);
+
+
+--
+-- Name: bitacora bitacora_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.bitacora
+    ADD CONSTRAINT bitacora_pkey PRIMARY KEY (cd_consecutivo_archivo);
+
+
+--
+-- Name: clientes clientes_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.clientes
+    ADD CONSTRAINT clientes_pkey PRIMARY KEY (cd_cliente);
+
+
+--
+-- Name: cobros cobros_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cobros
+    ADD CONSTRAINT cobros_pkey PRIMARY KEY (cd_cobro);
+
+
+--
+-- Name: configuracion_archivo configuracion_archivo_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.configuracion_archivo
+    ADD CONSTRAINT configuracion_archivo_pkey PRIMARY KEY (cd_configuracion);
+
+
+--
+-- Name: cuentasbancarias cuentasbancarias_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cuentasbancarias
+    ADD CONSTRAINT cuentasbancarias_pkey PRIMARY KEY (cd_cuentabancaria);
+
+
+--
+-- Name: empresas empresas_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.empresas
+    ADD CONSTRAINT empresas_pkey PRIMARY KEY (cd_empresa);
+
+
+--
+-- Name: estructura estructura_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.estructura
+    ADD CONSTRAINT estructura_pkey PRIMARY KEY (cd_estructura);
+
+
+--
+-- Name: menu_rol menu_rol_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.menu_rol
+    ADD CONSTRAINT menu_rol_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: menus menus_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.menus
+    ADD CONSTRAINT menus_pkey PRIMARY KEY (cd_menu);
+
+
+--
+-- Name: rol_usuario rol_usuario_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.rol_usuario
+    ADD CONSTRAINT rol_usuario_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (cd_rol);
+
+
+--
+-- Name: tablacodigo tablacodigo_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.tablacodigo
+    ADD CONSTRAINT tablacodigo_pkey PRIMARY KEY (cd_tabla_cod);
+
+
+--
+-- Name: usuarios usuarios_pkey; Type: CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.usuarios
+    ADD CONSTRAINT usuarios_pkey PRIMARY KEY (cd_usuario);
+
+
+--
+-- Name: fki_fk_or_cd_banco; Type: INDEX; Schema: colas; Owner: postgres
+--
+
+CREATE INDEX fki_fk_or_cd_banco ON colas.ordenes USING btree (cd_banco);
+
+
+--
+-- Name: fki_fk_or_cd_empresa; Type: INDEX; Schema: colas; Owner: postgres
+--
+
+CREATE INDEX fki_fk_or_cd_empresa ON colas.ordenes USING btree (cd_empresa);
+
+
+--
+-- Name: fki_fk_pr_cd_programa; Type: INDEX; Schema: colas; Owner: postgres
+--
+
+CREATE INDEX fki_fk_pr_cd_programa ON colas.ordenes USING btree (cd_programa);
+
+
+--
+-- Name: idx_or_cd_usuario; Type: INDEX; Schema: colas; Owner: postgres
+--
+
+CREATE INDEX idx_or_cd_usuario ON colas.ordenes USING btree (cd_usuario);
+
+
+--
+-- Name: fki_fk_ca_cd_banco; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX fki_fk_ca_cd_banco ON nucleo.configuracion_archivo USING btree (cd_banco);
+
+
+--
+-- Name: fki_fk_cl_cd_banco; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX fki_fk_cl_cd_banco ON nucleo.clientes USING btree (cd_banco);
+
+
+--
+-- Name: fki_fk_cl_cd_empresa; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX fki_fk_cl_cd_empresa ON nucleo.clientes USING btree (cd_empresa);
+
+
+--
+-- Name: fki_fkempresa; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX fki_fkempresa ON nucleo.bitacora USING btree (cd_empresa);
+
+
+--
+-- Name: fki_us_cd_empresa; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX fki_us_cd_empresa ON nucleo.usuarios USING btree (cd_empresa);
+
+
+--
+-- Name: idx_cb_cdbanco; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX idx_cb_cdbanco ON nucleo.cuentasbancarias USING btree (cd_banco);
+
+
+--
+-- Name: idx_cb_cdempresa; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX idx_cb_cdempresa ON nucleo.cuentasbancarias USING btree (cd_empresa);
+
+
+--
+-- Name: idx_cl_cd_cliente; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX idx_cl_cd_cliente ON nucleo.clientes USING btree (cd_cliente);
+
+
+--
+-- Name: idx_em_cd_empresa; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX idx_em_cd_empresa ON nucleo.empresas USING btree (cd_empresa);
+
+
+--
+-- Name: idxcdbanco; Type: INDEX; Schema: nucleo; Owner: postgres
+--
+
+CREATE INDEX idxcdbanco ON nucleo.bancos USING btree (cd_banco);
+
+
+--
+-- Name: ordenes fk_or_cd_banco; Type: FK CONSTRAINT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.ordenes
+    ADD CONSTRAINT fk_or_cd_banco FOREIGN KEY (cd_banco) REFERENCES nucleo.bancos(cd_banco) NOT VALID;
+
+
+--
+-- Name: ordenes fk_or_cd_empresa; Type: FK CONSTRAINT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.ordenes
+    ADD CONSTRAINT fk_or_cd_empresa FOREIGN KEY (cd_empresa) REFERENCES nucleo.empresas(cd_empresa) NOT VALID;
+
+
+--
+-- Name: ordenes fk_or_cd_usuario; Type: FK CONSTRAINT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.ordenes
+    ADD CONSTRAINT fk_or_cd_usuario FOREIGN KEY (cd_usuario) REFERENCES nucleo.usuarios(cd_usuario) NOT VALID;
+
+
+--
+-- Name: ordenes fk_pr_cd_programa; Type: FK CONSTRAINT; Schema: colas; Owner: postgres
+--
+
+ALTER TABLE ONLY colas.ordenes
+    ADD CONSTRAINT fk_pr_cd_programa FOREIGN KEY (cd_programa) REFERENCES colas.programas(cd_programa) NOT VALID;
+
+
+--
+-- Name: cobros fk1aq3v5ctth7k9gu344rga5c59; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cobros
+    ADD CONSTRAINT fk1aq3v5ctth7k9gu344rga5c59 FOREIGN KEY (cd_cliente) REFERENCES nucleo.clientes(cd_cliente);
+
+
+--
+-- Name: configuracion_archivo fk_ca_cd_banco; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.configuracion_archivo
+    ADD CONSTRAINT fk_ca_cd_banco FOREIGN KEY (cd_banco) REFERENCES nucleo.bancos(cd_banco) NOT VALID;
+
+
+--
+-- Name: cuentasbancarias fk_cb_cd_banco; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cuentasbancarias
+    ADD CONSTRAINT fk_cb_cd_banco FOREIGN KEY (cd_banco) REFERENCES nucleo.bancos(cd_banco) NOT VALID;
+
+
+--
+-- Name: cuentasbancarias fk_cb_cd_empresa; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.cuentasbancarias
+    ADD CONSTRAINT fk_cb_cd_empresa FOREIGN KEY (cd_empresa) REFERENCES nucleo.empresas(cd_empresa) NOT VALID;
+
+
+--
+-- Name: clientes fk_cl_cd_banco; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.clientes
+    ADD CONSTRAINT fk_cl_cd_banco FOREIGN KEY (cd_banco) REFERENCES nucleo.bancos(cd_banco) NOT VALID;
+
+
+--
+-- Name: clientes fk_cl_cd_empresa; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.clientes
+    ADD CONSTRAINT fk_cl_cd_empresa FOREIGN KEY (cd_empresa) REFERENCES nucleo.empresas(cd_empresa) NOT VALID;
+
+
+--
+-- Name: usuarios fk_us_cd_empresa; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.usuarios
+    ADD CONSTRAINT fk_us_cd_empresa FOREIGN KEY (cd_empresa) REFERENCES nucleo.empresas(cd_empresa) NOT VALID;
+
+
+--
+-- Name: bitacora fkempresa; Type: FK CONSTRAINT; Schema: nucleo; Owner: postgres
+--
+
+ALTER TABLE ONLY nucleo.bitacora
+    ADD CONSTRAINT fkempresa FOREIGN KEY (cd_empresa) REFERENCES nucleo.empresas(cd_empresa) NOT VALID;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

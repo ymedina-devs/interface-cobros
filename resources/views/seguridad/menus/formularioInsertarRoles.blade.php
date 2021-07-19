@@ -8,7 +8,7 @@
 			</div>
 			<div class="card-body">
 				<div class="">
-					<i class="feather icon-arrow-left" style="font-size:16px;"></i> <a href="#" onclick="funcEsconderFormulario()">Regresar a menus</a>
+					<i class="feather icon-arrow-left" style="font-size:16px;"></i> <a href="#" onclick="funcEsconderFormularioRoles()">Regresar a menus</a>
 					<hr>
 					<form method="POST" action="/roles.registrar" name="cr-roles">
 						@csrf

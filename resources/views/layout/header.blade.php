@@ -1,7 +1,7 @@
 <html lang="en">
 
 <head>
-    <title>Sistema de Cobros</title>
+    <title>Sistema de Cobro</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -17,7 +17,7 @@
     <meta name="author" content="CodedThemes"/>
 
     <!-- Favicon icon -->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="assets/images/faviconbanca.ico">
     <!-- fontawesome icon -->
     <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.min.css">
     <!-- animation css -->
@@ -43,10 +43,10 @@
     <!-- [ Header ] start -->
     <header class="navbar pcoded-header navbar-expand-lg navbar-light">
         <div class="m-header">
-            <a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
+            <a class="mobile-menu" id="mobile-collapse1" ><span></span></a>
             <a href="index.html" class="b-brand">
-                   <div class="b-bg">
-                       <i class="feather icon-trending-up"></i>
+                   <div class="">
+                       <i class="feather icon-triangle"></i>
                    </div>
                    <span class="b-title">Sistema de cobros</span>
                </a>
