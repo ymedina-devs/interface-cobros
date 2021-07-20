@@ -5,7 +5,7 @@
         <div class="pcoded-wrapper">
             <div class="pcoded-content">
                 <div class="pcoded-inner-content">
-                    <input type="text" name="valorSolicitud" value="estructura" hidden>
+                    <input type="text"  value="estructura" hidden>
                     <div class="main-body">
                         <div class="page-wrapper">
                             @include('estructura.tablaMostrarEstructura')

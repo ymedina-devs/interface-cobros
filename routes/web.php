@@ -76,6 +76,8 @@ Route::middleware(['autorizacion.defecto'])->group(function () {
 	Route::post('/configuracionarchivo.registrar','EstructuraController@funcInsertarFormulario');
 	Route::get('/configuracionarchivo.consultar.reg/{cd_banco}','EstructuraController@funcConsultarConfiguracionArchivoID');
 	Route::post('/configuracionarchivo.actualizar','EstructuraController@funcActualizarFormularioConfiguracionArchivo');
+
+	Route::get('/estructura.consultar/{param1}/{param2}/{param3}','EstructuraController@funcConsultarEstructuraParametrizada');
 	
 
 });

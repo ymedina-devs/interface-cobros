@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use DB; 
 
 class EstructuraController extends Controller{
 	public function index(){
@@ -69,4 +70,14 @@ class EstructuraController extends Controller{
         $varBancos=$instanciaTablacodigo->get();
         return view('estructura.principal', compact('varTablacodigo','varTablacodigo1','varBancos','varTablacodigo2'));
     }
+    public function funcConsultarEstructuraParametrizada($cdBanco,$tpRegistro,$tpArchivo){
+        $varSelect="SELECT banc.tx_banco, estr.*, taco1.tx_valor tx_valor1,taco2.tx_valor tx_valor2 from nucleo.estructura estr, nucleo.bancos banc, nucleo.tablacodigo taco1, nucleo.tablacodigo taco2 
+        where estr.cd_banco=banc.cd_banco and taco1.cd_tabla='tp_generacion_archivo' 
+        and estr.cd_configuracion=taco1.cd_modulo::integer 
+        and taco2.cd_tabla='tp_registro'
+        and estr.tp_registro=taco2.cd_modulo::integer  and estr.cd_banco=? and estr.cd_configuracion=? and estr.tp_registro=? order by tx_inicio asc";
+        $varEjecucion=DB::select($varSelect,[$cdBanco,$tpArchivo,$tpRegistro]);
+        return($varEjecucion);
+    }
+
 }
