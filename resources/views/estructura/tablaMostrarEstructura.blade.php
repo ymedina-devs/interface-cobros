@@ -38,12 +38,12 @@
                         </div>
                         
                     </div>
-                    <div class="col-md-3">
+                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Tipo Registro</label>
+                            <label for="">Tipo de Registro</label>
                             <select class="form-control" name="tp_archivo">
                             
-                            @if($varTablacodigo)
+                            @if($varTablacodigo2)
                                 @foreach($varTablacodigo2 as $tablacodigo)
                                 <option value="{{$tablacodigo->cd_modulo}}">{{$tablacodigo->tx_valor}}</option>
                                 @endforeach
@@ -54,9 +54,11 @@
                     </div>
                     <div class="col-md-3">
                         <label for="">_</label>
-                        <button class="btn btn-info form-control" onclick="funcGenerarBusqueda()">Generar Búsqueda</button>
+                        <button class="btn btn-success form-control" onclick="funcGenerarBusqueda()">Generar Búsqueda</button>
                     </div>
                 </div>
+                <hr>
+
                 <div id="tablaEstructura"></div>
             </div>
         </div>

@@ -43,6 +43,7 @@ function funcGenerarBusqueda(){
 	var selectTpArchivo=$('select[name="tp_archivo"] option:selected').val();
 	divTablaEstructura.html('');
 	var tablaHtml='<div class="table-responsive">'+
+		'<button class="btn btn-success" onclick="funcEsconderDatatableEstructura()">Registar Estructura</button>'+
 		'<table class="table table-striped " id="dt-mostrar-valores-estructura" class="display" style="width:100%">'+
 			'<thead>' +
 				'<tr>'+

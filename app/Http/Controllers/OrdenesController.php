@@ -32,5 +32,21 @@ class OrdenesController extends Controller
 		$varQuery=$modelInstance::create($request->all());
         echo json_encode(array('msg'=>'Se ha generado la orden'));
     }
+    public  function funcInsertarFormulario(Request $request){
+        $modelInstance='App\\nucleo\\OrdenesModel';
+        $validation = Validator::make(
+            $request->all(),
+            $modelInstance::returnValidations(),
+            $modelInstance::returnMessages()
+        );
+        if($validation->fails()){
+            echo json_encode (array($validation->errors()));
+
+        }else{
+            $modelInstance='App\\nucleo\\OrdenesModel';
+            $varQuery=$modelInstance::create($request->all());
+            echo json_encode(array('msg'=>'inserto'));
+        }
+    }
 }
     

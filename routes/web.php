@@ -23,6 +23,7 @@ Route::middleware(['autorizacion'])->group(function () {
 	Route::get('/ordenes.principal','OrdenesController@index');
 	Route::get('/configuracionarchivos.principal','EstructuraController@index');
 	Route::get('/estructura.principal','EstructuraController@indexEstructura');
+	Route::get('/gestioncobros.principal','GestionCobrosController@index');
 	Route::get('/welcome', function () {
 		return view('welcome');
 	})->name('welcome');
